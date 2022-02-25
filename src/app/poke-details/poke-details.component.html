@@ -1,0 +1,14 @@
+<div *ngIf="$pokemonDetails | async as details">
+  {{ details.name }}
+  {{ details.height }} meters {{ details.weight }} kg
+
+  {{ details.moves[1].moves }}
+  <div *ngFor="let moveData of details.moves">
+    {{ moveData.moves.name }}
+    <!-- <div *ngIf="getMoveDetails(moveData.url) | async as move">
+      {{ move.accuracy }}
+      {{ move.effect_chance }}
+      {{ move.pp }}
+    </div> -->
+  </div>
+</div>

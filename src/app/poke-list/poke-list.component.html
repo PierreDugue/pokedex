@@ -1,0 +1,8 @@
+<div *ngIf="$pokemonList | async as pokeList">
+  <button (click)="pageChange(pokeList.next)">Next</button>
+  <div class="poke-list">
+    <div *ngFor="let pokemon of pokeList?.results">
+      <app-poke-tile [pokemon]="pokemon"></app-poke-tile>
+    </div>
+  </div>
+</div>
