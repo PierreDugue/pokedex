@@ -2,7 +2,7 @@
   {{ details.name }}
   {{ details.height }} meters {{ details.weight }} kg
 
-  {{ details.moves[1].moves }}
+  {{ details.moves[1] }}
   <div *ngFor="let moveData of details.moves">
     {{ moveData.moves.name }}
     <!-- <div *ngIf="getMoveDetails(moveData.url) | async as move">
