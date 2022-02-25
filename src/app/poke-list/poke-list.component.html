@@ -1,6 +1,12 @@
-<button (click)="togglePokemonList()">Show Pokemon List</button>
-<button (click)="showCatchList()">Show catch list</button>
-<button (click)="clearCatchList()">Clear catch list</button>
+<button type="button" class="btn btn-primary" (click)="togglePokemonList()">
+  Show Pokemon List
+</button>
+<button type="button" class="btn btn-secondary" (click)="showCatchList()">
+  Show catch list
+</button>
+<button type="button" class="btn btn-warning" (click)="clearCatchList()">
+  Clear catch list
+</button>
 <pagination
   class="pagination"
   (pageChanged)="pageChange($event)"

@@ -8,6 +8,7 @@ import { PokeListComponent } from './poke-list/poke-list.component';
 import { PokeTileComponent } from './poke-tile/poke-tile.component';
 import { PokeDetailsComponent } from './poke-details/poke-details.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +21,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     AppRoutingModule,
     HttpClientModule,
     PaginationModule.forRoot(),
+    ButtonsModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
