@@ -8,6 +8,7 @@ export interface PokemonList {
 export interface PokemonResult {
   name: string;
   url: string;
+  isInCatchList: boolean;
 }
 
 export interface PokemonDetails {
@@ -19,10 +20,11 @@ export interface PokemonDetails {
   order: number;
   weight: number;
   moves: Move[];
+  stats: Stats[];
 }
 
 export interface Move {
-  moves: Moves;
+  move: Moves;
 }
 
 export interface Moves {
@@ -38,4 +40,15 @@ export interface MoveDetails {
   pp: number;
   priority: number;
   power: number;
+}
+
+export interface Stats {
+  base_stat: number;
+  effot: number;
+  stat: Stat;
+}
+
+export interface Stat {
+  name: string;
+  url: string;
 }

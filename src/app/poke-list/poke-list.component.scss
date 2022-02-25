@@ -1,5 +1,26 @@
+@media (max-width: 500px) {
+  .poke-list {
+    grid-template-columns: repeat(2, auto);
+  }
+}
+
+@media (min-width: 501px) {
+  .poke-list {
+    grid-template-columns: repeat(3, auto);
+  }
+}
+
 .poke-list {
   display: grid;
-  grid-template-columns: repeat(3, auto);
+  gap: 10px;
   text-align: center;
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+}
+
+button {
+  margin-right: 10px;
 }

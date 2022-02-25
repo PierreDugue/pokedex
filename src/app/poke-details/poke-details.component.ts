@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of, switchMap, tap } from 'rxjs';
+import { map, Observable, of, switchMap, take } from 'rxjs';
 import { MoveDetails, PokemonDetails } from '../pokemon.model';
 import { PokedexService } from '../services/pokedex.service';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-poke-details',
   templateUrl: './poke-details.component.html',
@@ -12,10 +12,21 @@ import { PokedexService } from '../services/pokedex.service';
 export class PokeDetailsComponent implements OnInit {
   constructor(
     private pokeService: PokedexService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private location: Location
   ) {}
-  $pokemonDetails: Observable<PokemonDetails> = of();
-  $moveDetails: Observable<MoveDetails> = of();
+  pokemonDetails: PokemonDetails = {
+    id: 0,
+    name: '',
+    base_experience: 0,
+    height: 0,
+    is_default: false,
+    order: 0,
+    weight: 0,
+    moves: [],
+    stats: [],
+  };
+  moveDetails: MoveDetails[] = [];
 
   ngOnInit(): void {
     this.route.params.subscribe((param) => {
@@ -24,11 +35,12 @@ export class PokeDetailsComponent implements OnInit {
   }
 
   getDetails(id: string): void {
-    this.$pokemonDetails = this.pokeService.getPokemonDetails(id);
-
     this.pokeService
       .getPokemonDetails(id)
-      .subscribe((x) => console.log('x', x));
+      .pipe(take(1))
+      .subscribe((res: PokemonDetails) => {
+        this.pokemonDetails = res;
+      });
   }
 
   getMoveDetails(url: string): Observable<MoveDetails> {
@@ -37,5 +49,9 @@ export class PokeDetailsComponent implements OnInit {
 
   parseId(url: string): string {
     return url.split('/')[6];
+  }
+
+  goBackToList(): void {
+    this.location.back();
   }
 }

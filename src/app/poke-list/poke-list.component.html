@@ -1,8 +1,24 @@
-<div *ngIf="$pokemonList | async as pokeList">
-  <button (click)="pageChange(pokeList.next)">Next</button>
-  <div class="poke-list">
-    <div *ngFor="let pokemon of pokeList?.results">
+<button (click)="togglePokemonList()">Show Pokemon List</button>
+<button (click)="showCatchList()">Show catch list</button>
+<button (click)="clearCatchList()">Clear catch list</button>
+<pagination
+  class="pagination"
+  (pageChanged)="pageChange($event)"
+  [totalItems]="pokemonList.count"
+  [maxSize]="5"
+></pagination>
+
+<div *ngIf="isShowCatchList; else showPokemonList">
+  <div class="poke-list" *ngIf="$catchList | async as catchList">
+    <div *ngFor="let pokemon of catchList">
       <app-poke-tile [pokemon]="pokemon"></app-poke-tile>
     </div>
   </div>
 </div>
+<ng-template #showPokemonList>
+  <div *ngIf="$pokemonList | async as pokemonList" class="poke-list">
+    <div *ngFor="let pokemon of pokemonList">
+      <app-poke-tile [pokemon]="pokemon"></app-poke-tile>
+    </div>
+  </div>
+</ng-template>

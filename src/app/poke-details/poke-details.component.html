@@ -1,14 +1,24 @@
-<div *ngIf="$pokemonDetails | async as details">
-  {{ details.name }}
-  {{ details.height }} meters {{ details.weight }} kg
+<div>
+  <button (click)="goBackToList()">Back on pokemon list</button>
+</div>
 
-  {{ details.moves[1] }}
-  <div *ngFor="let moveData of details.moves">
-    {{ moveData.moves.name }}
-    <!-- <div *ngIf="getMoveDetails(moveData.url) | async as move">
-      {{ move.accuracy }}
-      {{ move.effect_chance }}
-      {{ move.pp }}
-    </div> -->
-  </div>
+<div class="details-wrapper">
+  <h2>Details for: {{ pokemonDetails.name | titlecase }}</h2>
+  <h4>Size :</h4>
+  <ul>
+    <li><strong>Height :</strong> {{ pokemonDetails.height }} meters</li>
+    <li><strong>Weight : </strong> {{ pokemonDetails.weight }} kg</li>
+  </ul>
+  <h4>Base stats :</h4>
+  <ul>
+    <li *ngFor="let stat of pokemonDetails.stats">
+      <strong>{{ stat.stat.name | titlecase }}:</strong> {{ stat.base_stat }}
+    </li>
+  </ul>
+  <h3>List of moves</h3>
+  <ul class="grid-list">
+    <li *ngFor="let moveData of pokemonDetails.moves">
+      {{ moveData.move.name | titlecase }}
+    </li>
+  </ul>
 </div>

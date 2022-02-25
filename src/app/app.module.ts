@@ -7,10 +7,20 @@ import { AppComponent } from './app.component';
 import { PokeListComponent } from './poke-list/poke-list.component';
 import { PokeTileComponent } from './poke-tile/poke-tile.component';
 import { PokeDetailsComponent } from './poke-details/poke-details.component';
-
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 @NgModule({
-  declarations: [AppComponent, PokeListComponent, PokeTileComponent, PokeDetailsComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  declarations: [
+    AppComponent,
+    PokeListComponent,
+    PokeTileComponent,
+    PokeDetailsComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    PaginationModule.forRoot(),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
