@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { PokemonResult } from '../pokemon.model';
 import { PokedexService } from '../services/pokedex.service';
 
@@ -6,6 +11,7 @@ import { PokedexService } from '../services/pokedex.service';
   selector: 'app-poke-tile',
   templateUrl: './poke-tile.component.html',
   styleUrls: ['./poke-tile.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PokeTileComponent implements OnInit {
   @Input() pokemon: PokemonResult = {

@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, Observable, of, switchMap, take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { MoveDetails, PokemonDetails } from '../pokemon.model';
 import { PokedexService } from '../services/pokedex.service';
 import { Location } from '@angular/common';
@@ -8,12 +13,14 @@ import { Location } from '@angular/common';
   selector: 'app-poke-details',
   templateUrl: './poke-details.component.html',
   styleUrls: ['./poke-details.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PokeDetailsComponent implements OnInit {
   constructor(
     private pokeService: PokedexService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private cdr: ChangeDetectorRef
   ) {}
   pokemonDetails: PokemonDetails = {
     id: 0,
@@ -40,6 +47,7 @@ export class PokeDetailsComponent implements OnInit {
       .pipe(take(1))
       .subscribe((res: PokemonDetails) => {
         this.pokemonDetails = res;
+        this.cdr.detectChanges();
       });
   }
 

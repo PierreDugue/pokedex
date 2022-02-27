@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { BehaviorSubject, Observable, of, take, tap } from 'rxjs';
 import { PokemonList, PokemonResult } from '../pokemon.model';
@@ -10,6 +10,7 @@ const CATCH_LIST_KEY = 'catchList';
   selector: 'app-poke-list',
   templateUrl: './poke-list.component.html',
   styleUrls: ['./poke-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PokeListComponent implements OnInit {
   $pokemonList: BehaviorSubject<PokemonResult[]> = new BehaviorSubject<
