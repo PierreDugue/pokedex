@@ -32,16 +32,6 @@ export interface Moves {
   url: string;
 }
 
-export interface MoveDetails {
-  id: number;
-  name: string;
-  accuracy: number;
-  effect_chance: number;
-  pp: number;
-  priority: number;
-  power: number;
-}
-
 export interface Stats {
   base_stat: number;
   effot: number;

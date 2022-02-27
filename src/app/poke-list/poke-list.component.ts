@@ -23,7 +23,10 @@ export class PokeListComponent implements OnInit {
   constructor(private pokeService: PokedexService) {}
 
   ngOnInit(): void {
-    this.getCatchList();
+    const catchList = this.getCatchList();
+    if (catchList) {
+      this.$catchList.next(JSON.parse(catchList) as PokemonResult[]);
+    }
     this.getPokemonList();
   }
 
@@ -35,23 +38,26 @@ export class PokeListComponent implements OnInit {
     this.pokeService
       .getPokemonList(event ? event.page * LIMIT - LIMIT : undefined)
       .pipe(take(1))
-      .subscribe((pokemonList: PokemonList) => {
-        this.setIsCatch(pokemonList);
-        this.$pokemonList.next(pokemonList.results);
-        this.pokemonList = pokemonList;
+      .subscribe({
+        next: (pokemonList: PokemonList) => {
+          this.setIsCatch(pokemonList);
+          this.$pokemonList.next(pokemonList.results);
+          this.pokemonList = pokemonList;
+        },
+        error: (error) => console.log(error),
       });
   }
 
-  getCatchList(): void {
-    const catchList = localStorage.getItem(CATCH_LIST_KEY);
-    if (catchList) {
-      this.$catchList.next(JSON.parse(catchList) as PokemonResult[]);
-    }
+  getCatchList(): string | null {
+    return localStorage.getItem(CATCH_LIST_KEY);
   }
 
   clearCatchList(): void {
     localStorage.removeItem(CATCH_LIST_KEY);
+    this.reloadPage();
+  }
 
+  reloadPage(): void {
     // Easier way to manage the clear.
     window.location.reload();
   }

@@ -15,16 +15,16 @@
 ></pagination>
 
 <div *ngIf="isShowCatchList; else showPokemonList">
-  <div class="poke-list" *ngIf="$catchList | async as catchList">
+  <div class="poke-list catch-list" *ngIf="$catchList | async as catchList">
     <div *ngFor="let pokemon of catchList">
       <app-poke-tile [pokemon]="pokemon"></app-poke-tile>
     </div>
   </div>
 </div>
 <ng-template #showPokemonList>
-  <div *ngIf="$pokemonList | async as pokemonList" class="poke-list">
+  <div *ngIf="$pokemonList | async as pokemonList" class="poke-list pokemons">
     <div *ngFor="let pokemon of pokemonList">
-      <app-poke-tile [pokemon]="pokemon"></app-poke-tile>
+      <app-poke-tile class="pokemon-tiles" [pokemon]="pokemon"></app-poke-tile>
     </div>
   </div>
 </ng-template>

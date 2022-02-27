@@ -1,10 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PokeListComponent } from './poke-list.component';
 import { PokedexService } from '../services/pokedex.service';
-import { of } from 'rxjs';
+import { async, of } from 'rxjs';
 import { PokemonList, PokemonResult } from '../pokemon.model';
+import { By } from '@angular/platform-browser';
 
 describe('PokeListComponent', () => {
   let component: PokeListComponent;
@@ -32,34 +38,101 @@ describe('PokeListComponent', () => {
     previous: '',
     results: pokeResult,
   };
+  let catchList = `{
+    name: 'poke3',
+    url: 'ulr1',
+    isInCatchList: false,
+  },`;
+  const CATCH_LIST_KEY = 'catchList';
+  let pokeService: PokedexService;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule],
-      declarations: [PokeListComponent],
-      providers: [
-        {
-          provide: PokedexService,
-          useValue: {
-            getPokemonList: () => of(),
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, HttpClientTestingModule],
+        declarations: [PokeListComponent],
+        providers: [
+          {
+            provide: PokedexService,
+            useValue: {
+              getPokemonList: () => of(pokemonList),
+            },
           },
-        },
-      ],
-    }).compileComponents();
-  });
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PokeListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    let store: any = {};
+    const mockLocalStorage = {
+      getItem: (key: string): string => {
+        return key in store ? store[key] : null;
+      },
+      setItem: (key: string, value: string) => {
+        store[key] = `${value}`;
+      },
+      removeItem: (key: string) => {
+        delete store[key];
+      },
+      clear: () => {
+        store = {};
+      },
+    };
+
+    spyOn(localStorage, 'getItem').and.callFake(mockLocalStorage.getItem);
+    spyOn(localStorage, 'setItem').and.callFake(mockLocalStorage.setItem);
+    spyOn(localStorage, 'removeItem').and.callFake(mockLocalStorage.removeItem);
+    spyOn(localStorage, 'clear').and.callFake(mockLocalStorage.clear);
   });
 
-  it('should return list of entities value', () => {
-    const pokeService = fixture.debugElement.injector.get(PokedexService);
-    fixture.detectChanges();
+  describe('[Component]', () => {
+    it('should trigger showcatchlist', () => {
+      spyOn(component, 'showCatchList');
 
-    pokeService.getPokemonList().subscribe((poke) => {
-      expect(poke).toEqual(pokemonList);
+      const button = fixture.debugElement.query(
+        By.css('.btn-secondary')
+      ).nativeElement;
+      button.click();
+
+      fixture.whenStable().then(() => {
+        expect(component.showCatchList).toHaveBeenCalled();
+      });
+    });
+
+    it('should display pokemon list', () => {
+      component.$pokemonList.next(pokeResult);
+      fixture.detectChanges();
+
+      const element = fixture.debugElement.query(
+        By.css('.pokemons')
+      ).nativeElement;
+      expect(element).toBeTruthy();
+    });
+
+    it('should show the correct number of elements', () => {
+      component.$pokemonList.next(pokeResult);
+      fixture.detectChanges();
+
+      const element = fixture.debugElement.queryAll(By.css('.pokemon-tiles'));
+      expect(element.length).toEqual(3);
+    });
+  });
+
+  describe('[Local storage]', () => {
+    it('should return stored value from localStorage', () => {
+      localStorage.setItem(CATCH_LIST_KEY, catchList);
+      expect(component.getCatchList()).toEqual(catchList);
+    });
+
+    it('should return stored value from localStorage', () => {
+      component.reloadPage = function () {};
+      component.clearCatchList();
+      expect(component.getCatchList()).toEqual(null);
     });
   });
 });

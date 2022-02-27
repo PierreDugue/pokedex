@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import {
-  MoveDetails,
-  PokemonDetails,
-  PokemonList,
-  PokemonResult,
-} from '../pokemon.model';
+import { PokemonDetails, PokemonList, PokemonResult } from '../pokemon.model';
 
 const BASE_URL = 'https://pokeapi.co/api/v2';
 const HEADER = {
@@ -36,9 +31,5 @@ export class PokedexService {
 
   getPokemonDetails(id: string): Observable<PokemonDetails> {
     return this.http.get<PokemonDetails>(`${BASE_URL}/pokemon/${id}`);
-  }
-
-  getMove(id: string): Observable<MoveDetails> {
-    return this.http.get<MoveDetails>(`${BASE_URL}/move/${id}`);
   }
 }

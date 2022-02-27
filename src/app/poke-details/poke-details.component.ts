@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, take } from 'rxjs';
-import { MoveDetails, PokemonDetails } from '../pokemon.model';
+import { PokemonDetails } from '../pokemon.model';
 import { PokedexService } from '../services/pokedex.service';
 import { Location } from '@angular/common';
 @Component({
@@ -33,7 +33,6 @@ export class PokeDetailsComponent implements OnInit {
     moves: [],
     stats: [],
   };
-  moveDetails: MoveDetails[] = [];
 
   ngOnInit(): void {
     this.route.params.subscribe((param) => {
@@ -45,14 +44,13 @@ export class PokeDetailsComponent implements OnInit {
     this.pokeService
       .getPokemonDetails(id)
       .pipe(take(1))
-      .subscribe((res: PokemonDetails) => {
-        this.pokemonDetails = res;
-        this.cdr.detectChanges();
+      .subscribe({
+        next: (pokeDetails: PokemonDetails) => {
+          this.pokemonDetails = pokeDetails;
+          this.cdr.detectChanges();
+        },
+        error: (error) => console.log(error),
       });
-  }
-
-  getMoveDetails(url: string): Observable<MoveDetails> {
-    return this.pokeService.getMove(this.parseId(url));
   }
 
   parseId(url: string): string {
