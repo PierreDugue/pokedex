@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PokeListComponent } from './poke-list.component';
 import { PokedexService } from '../services/pokedex.service';
-import { async, of } from 'rxjs';
+import { async, BehaviorSubject, Observable, of } from 'rxjs';
 import { PokemonList, PokemonResult } from '../pokemon.model';
 import { By } from '@angular/platform-browser';
 
@@ -44,7 +44,6 @@ describe('PokeListComponent', () => {
     isInCatchList: false,
   },`;
   const CATCH_LIST_KEY = 'catchList';
-  let pokeService: PokedexService;
 
   beforeEach(
     waitForAsync(() => {
@@ -67,7 +66,6 @@ describe('PokeListComponent', () => {
     fixture = TestBed.createComponent(PokeListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
     let store: any = {};
     const mockLocalStorage = {
       getItem: (key: string): string => {
@@ -91,6 +89,18 @@ describe('PokeListComponent', () => {
   });
 
   describe('[Component]', () => {
+    it('should render buttons', () => {
+      expect(fixture.debugElement.query(By.css('.btn-primary'))).not.toBeNull();
+      expect(
+        fixture.debugElement.query(By.css('.btn-secondary'))
+      ).not.toBeNull();
+      expect(fixture.debugElement.query(By.css('.btn-warning'))).not.toBeNull();
+    });
+
+    it('should render pagination', () => {
+      expect(fixture.debugElement.query(By.css('.pagination'))).not.toBeNull();
+    });
+
     it('should trigger showcatchlist', () => {
       spyOn(component, 'showCatchList');
 
@@ -99,12 +109,22 @@ describe('PokeListComponent', () => {
       ).nativeElement;
       button.click();
 
-      fixture.whenStable().then(() => {
-        expect(component.showCatchList).toHaveBeenCalled();
-      });
+      expect(component.showCatchList).toHaveBeenCalled();
     });
 
-    it('should display pokemon list', () => {
+    it('should render catchlist', () => {
+      const button = fixture.debugElement.query(
+        By.css('.btn-secondary')
+      ).nativeElement;
+      button.click();
+
+      const element = fixture.debugElement.query(
+        By.css('.pokemons')
+      ).nativeElement;
+      expect(element).toBeTruthy();
+    });
+
+    it('should render pokemon list', () => {
       component.$pokemonList.next(pokeResult);
       fixture.detectChanges();
 

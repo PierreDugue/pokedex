@@ -21,16 +21,12 @@ export class PokeTileComponent implements OnInit {
   };
 
   get detailLink(): string {
-    return `detail/${this.parseId(this.pokemon.url)}`;
+    return `detail/${this.pokeService.parseId(this.pokemon.url)}`;
   }
 
   constructor(private pokeService: PokedexService) {}
 
   ngOnInit(): void {}
-
-  parseId(url: string): string {
-    return url.split('/')[6];
-  }
 
   toggleToCatchList(pokemon: PokemonResult, event: any): void {
     if (event.target.checked) {

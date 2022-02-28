@@ -46,6 +46,7 @@ describe('PokdexService', () => {
     moves: [],
     stats: [],
   };
+  let url = 'https://pokeapi.co/api/v2/pokemon/2';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -58,6 +59,10 @@ describe('PokdexService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should parse the ID', () => {
+    expect(service.parseId(url)).toEqual('2');
   });
 
   describe('[Http requests]', () => {

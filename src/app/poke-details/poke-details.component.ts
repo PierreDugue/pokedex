@@ -53,10 +53,6 @@ export class PokeDetailsComponent implements OnInit {
       });
   }
 
-  parseId(url: string): string {
-    return url.split('/')[6];
-  }
-
   goBackToList(): void {
     this.location.back();
   }

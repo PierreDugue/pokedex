@@ -17,7 +17,10 @@
 <div *ngIf="isShowCatchList; else showPokemonList">
   <div class="poke-list catch-list" *ngIf="$catchList | async as catchList">
     <div *ngFor="let pokemon of catchList">
-      <app-poke-tile [pokemon]="pokemon"></app-poke-tile>
+      <app-poke-tile
+        class="catch-list-tiles"
+        [pokemon]="pokemon"
+      ></app-poke-tile>
     </div>
   </div>
 </div>

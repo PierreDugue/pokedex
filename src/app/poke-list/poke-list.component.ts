@@ -25,7 +25,9 @@ export class PokeListComponent implements OnInit {
   ngOnInit(): void {
     const catchList = this.getCatchList();
     if (catchList) {
-      this.$catchList.next(JSON.parse(catchList) as PokemonResult[]);
+      this.pokeService.$catchList.next(
+        JSON.parse(catchList) as PokemonResult[]
+      );
     }
     this.getPokemonList();
   }
@@ -58,7 +60,7 @@ export class PokeListComponent implements OnInit {
   }
 
   reloadPage(): void {
-    // Easier way to manage the clear.
+    // Easier way (for the time I have for this test) to manage the clear.
     window.location.reload();
   }
 
