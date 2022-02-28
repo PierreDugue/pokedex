@@ -141,6 +141,10 @@ describe('PokeListComponent', () => {
       const element = fixture.debugElement.queryAll(By.css('.pokemon-tiles'));
       expect(element.length).toEqual(3);
     });
+
+    it('should return the name', () => {
+      expect(component.trackByName(0, pokeResult[0])).toEqual('poke1');
+    });
   });
 
   describe('[Local storage]', () => {

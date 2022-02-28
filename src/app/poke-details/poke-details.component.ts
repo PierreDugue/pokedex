@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs';
-import { PokemonDetails } from '../pokemon.model';
+import { Move, PokemonDetails, Stats } from '../pokemon.model';
 import { PokedexService } from '../services/pokedex.service';
 import { Location } from '@angular/common';
 @Component({
@@ -55,5 +55,13 @@ export class PokeDetailsComponent implements OnInit {
 
   goBackToList(): void {
     this.location.back();
+  }
+
+  trackByMove(index: number, item: Move): string {
+    return item.move.name;
+  }
+
+  trackByStat(index: number, item: Stats): string {
+    return item.stat.name;
   }
 }

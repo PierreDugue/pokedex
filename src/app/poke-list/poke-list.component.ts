@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
-import { BehaviorSubject, Observable, of, take, tap } from 'rxjs';
+import { BehaviorSubject, take } from 'rxjs';
 import { PokemonList, PokemonResult } from '../pokemon.model';
 import { PokedexService } from '../services/pokedex.service';
 
@@ -81,5 +81,9 @@ export class PokeListComponent implements OnInit {
       )
         res.isInCatchList = true;
     });
+  }
+
+  trackByName(index: number, item: PokemonResult): string {
+    return item.name;
   }
 }

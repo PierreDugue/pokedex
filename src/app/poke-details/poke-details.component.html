@@ -13,13 +13,13 @@
   </ul>
   <h4>Base stats :</h4>
   <ul>
-    <li *ngFor="let stat of pokemonDetails.stats">
+    <li *ngFor="let stat of pokemonDetails.stats; trackBy: trackByStat">
       <strong>{{ stat.stat.name | titlecase }}:</strong> {{ stat.base_stat }}
     </li>
   </ul>
   <h3>List of moves</h3>
   <ul class="grid-list">
-    <li *ngFor="let moveData of pokemonDetails.moves">
+    <li *ngFor="let moveData of pokemonDetails.moves; trackBy: trackByMove">
       {{ moveData.move.name | titlecase }}
     </li>
   </ul>
