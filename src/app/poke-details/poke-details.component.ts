@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, take } from 'rxjs';
+import { take } from 'rxjs';
 import { PokemonDetails } from '../pokemon.model';
 import { PokedexService } from '../services/pokedex.service';
 import { Location } from '@angular/common';

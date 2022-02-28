@@ -149,7 +149,7 @@ describe('PokeListComponent', () => {
       expect(component.getCatchList()).toEqual(catchList);
     });
 
-    it('should return stored value from localStorage', () => {
+    it('should not return value from localStorage', () => {
       component.reloadPage = function () {};
       component.clearCatchList();
       expect(component.getCatchList()).toEqual(null);
