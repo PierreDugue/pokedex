@@ -30,7 +30,7 @@ export class PokedexService {
   }
 
   getPokemonDetails(id: string): Observable<PokemonDetails> {
-    return this.http.get<PokemonDetails>(`${BASE_URL}/pokemon/${id}`);
+    return this.http.get<PokemonDetails>(`${BASE_URL}/pokemon/${id}`, HEADER);
   }
 
   parseId(url: string): string {
